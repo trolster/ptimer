@@ -3,17 +3,31 @@
   "version": "0.1.0",
   "description": "Pomodoro Timer CLI",
   "main": "index.js",
-  "scripts": {},
-  "keywords": [
-    "cli",
-    "pomodoro"
-  ],
+  "scripts": {
+    "clean": "rm -rf ./build",
+    "prelint": "npm run clean",
+    "lint": "eslint ./src",
+    "prebuild": "npm run lint",
+    "build": "babel src -d build --presets env"
+  },
+  "keywords": ["cli", "pomodoro"],
   "author": "Mikkel Trolle Larsen",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-prettier": "^2.1.2",
     "prettier": "^1.5.3"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "babel": {
+    "presets": ["env"]
+  },
+  "bin": {
+    "ptimer": "./build/index.js"
   }
 }
