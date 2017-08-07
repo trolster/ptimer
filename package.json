@@ -1,0 +1,19 @@
+{
+  "name": "ptimer",
+  "version": "0.1.0",
+  "description": "Pomodoro Timer CLI",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "cli",
+    "pomodoro"
+  ],
+  "author": "Mikkel Trolle Larsen",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.4.1",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "prettier": "^1.5.3"
+  }
+}
