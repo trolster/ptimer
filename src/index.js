@@ -4,6 +4,8 @@
 import cli from "commander";
 import ProgressBar from "progress";
 import notifier from "node-notifier";
+import winston from "winston";
+import homedir from "homedir";
 // our modules
 import pkg from "../package.json";
 
@@ -12,9 +14,12 @@ cli
   .option("-p, --project [name]", "Log the project")
   .parse(process.argv);
 
-const projectName = cli.project || "Un-named";
-
+const project = cli.project || "Un-named";
+const message = `${project} pomodoro completed.`;
 let remainingSeconds = 3;
+
+winston.add(winston.transports.File, { filename: `${homedir()}/.ptimer` });
+
 const bar = new ProgressBar(":bar", { total: remainingSeconds });
 
 const timer = setInterval(() => {
@@ -22,10 +27,11 @@ const timer = setInterval(() => {
   if (bar.complete) {
     notifier.notify({
       title: "Time's up!",
-      message: `${projectName} pomodoro completed.`,
+      message: message,
       sound: "Hero"
     });
     clearInterval(timer);
+    winston.log("info", message, { project });
   }
 }, 1000);
 
