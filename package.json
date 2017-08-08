@@ -35,5 +35,9 @@
   },
   "bin": {
     "ptimer": "./build/index.js"
+  },
+  "dependencies": {
+    "commander": "^2.11.0",
+    "progress": "^2.0.0"
   }
 }
