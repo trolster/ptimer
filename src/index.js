@@ -12,11 +12,13 @@ import pkg from "../package.json";
 cli
   .version(pkg.version)
   .option("-p, --project [name]", "Log the project")
+  .option("-d, --description [description]", "Describe the task")
   .parse(process.argv);
 
 const project = cli.project || "Un-named";
+const description = cli.description || "";
 const message = `${project} pomodoro completed.`;
-let remainingSeconds = 3;
+let remainingSeconds = 25 * 60000;
 
 winston.add(winston.transports.File, { filename: `${homedir()}/.ptimer` });
 
@@ -31,7 +33,7 @@ const timer = setInterval(() => {
       sound: "Hero"
     });
     clearInterval(timer);
-    winston.log("info", message, { project });
+    winston.log("info", message, { project, description });
   }
 }, 1000);
 
