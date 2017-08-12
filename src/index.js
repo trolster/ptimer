@@ -18,7 +18,7 @@ cli
 const project = cli.project || "Un-named";
 const description = cli.description || "";
 const message = `${project} pomodoro completed.`;
-let remainingSeconds = 25 * 60000;
+let remainingSeconds = 25 * 60;
 
 winston.add(winston.transports.File, { filename: `${homedir()}/.ptimer` });
 
