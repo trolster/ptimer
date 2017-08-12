@@ -1,5 +1,5 @@
 {
-  "name": "ptimer",
+  "name": "potimer",
   "version": "0.1.0",
   "description": "Pomodoro Timer CLI",
   "main": "index.js",
