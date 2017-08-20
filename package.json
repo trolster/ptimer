@@ -10,10 +10,7 @@
     "prebuild": "npm run lint",
     "build": "babel src -d build --presets env"
   },
-  "keywords": [
-    "cli",
-    "pomodoro"
-  ],
+  "keywords": ["cli", "pomodoro"],
   "author": "Mikkel Trolle Larsen",
   "license": "MIT",
   "devDependencies": {
@@ -29,12 +26,10 @@
     "node": ">=6.0.0"
   },
   "babel": {
-    "presets": [
-      "env"
-    ]
+    "presets": ["env"]
   },
   "bin": {
-    "ptimer": "./build/index.js"
+    "potimer": "./build/index.js"
   },
   "dependencies": {
     "commander": "^2.11.0",
