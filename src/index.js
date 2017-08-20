@@ -9,33 +9,56 @@ import homedir from "homedir";
 // our modules
 import pkg from "../package.json";
 
+winston.add(winston.transports.File, { filename: `${homedir()}/.ptimer` });
+
 cli
   .version(pkg.version)
   .option("-p, --project [name]", "Log the project")
   .option("-d, --description [description]", "Describe the task")
+  .option("-t, --test [seconds]", "test ptimer") // For testing purposes
   .parse(process.argv);
 
 const project = cli.project || "Un-named";
 const description = cli.description || "";
-const message = `${project} pomodoro completed.`;
-let remainingSeconds = 25 * 60;
+const duration = parseInt(cli.test) || 25 * 60; // seconds
 
-winston.add(winston.transports.File, { filename: `${homedir()}/.ptimer` });
+const title = `${project} pomodoro completed.`;
+const message = "Click to reset the timer...";
+const sound = "Hero";
 
-const bar = new ProgressBar(":bar", { total: remainingSeconds });
+let intervalID = null;
 
-const timer = setInterval(() => {
-  bar.tick();
-  if (bar.complete) {
-    notifier.notify({
-      title: "Time's up!",
-      message: message,
-      sound: "Hero"
-    });
-    clearInterval(timer);
-    winston.log("info", message, { project, description });
+const intervalManager = (start, time) => {
+  if (start) {
+    const bar = new ProgressBar(":bar", { total: time });
+    intervalID = setInterval(() => {
+      bar.tick();
+      if (bar.complete) {
+        intervalManager(false);
+        notifier.notify(
+          {
+            title,
+            message,
+            sound,
+            wait: true
+          },
+          (err, response) => {
+            if (!cli.test) {
+              winston.log("info", title, { project, description });
+            }
+            if (response === "activate") {
+              intervalManager(true, duration);
+            }
+          }
+        );
+      }
+    }, 1000);
+  } else {
+    clearInterval(intervalID);
   }
-}, 1000);
+};
+
+intervalManager(true, duration);
 
 // output all uncaught exceptions
 process.on("uncaughtException", err => {
